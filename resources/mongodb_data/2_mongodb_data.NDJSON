@@ -1,0 +1,6 @@
+{"patId": 1, "patient": "TestNone", "creationDate": "2022-03-05", "notes": "Patient states that they have been experiencing occasional dizziness. No significant findings on physical examination."}
+{"patId": 2, "patient": "TestBorderline", "creationDate": "2022-02-28", "notes": "Patient reports persistent back pain. MRI reveals a herniated disc in the lumbar spine."}
+{"patId": 2, "patient": "TestBorderline", "creationDate": "2022-03-15", "notes": "Patient states that they have been experiencing frequent migraines. Prescribed migraine medication for relief."}
+{"patId": 3, "patient": "TestInDanger", "creationDate": "2022-03-10", "notes": "Patient reports recurrent stomach pain and bloating after meals. Referred to a gastroenterologist for further evaluation."}
+{"patId": 4, "patient": "TestInDanger", "creationDate": "2022-02-20", "notes": "Patient complains of ongoing fatigue and difficulty concentrating. Blood tests ordered to check for possible vitamin deficiencies."}
+{"patId": 4, "patient": "TestInDanger", "creationDate": "2022-03-12", "notes": "Patient states that they have been experiencing insomnia. Recommended lifestyle changes and relaxation techniques to improve sleep quality."}

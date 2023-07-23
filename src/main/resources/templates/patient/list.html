@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patients Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Patients Management</h1>
+    <hr>
+
+    <!-- Add Patient Button -->
+    <a th:href="@{/patient/add}" class="btn btn-success">Add Patient</a>
+    <br>
+    <br>
+
+    <!-- Patients Table -->
+    <h2>Patients List</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Family Name</th>
+            <th>Given Name</th>
+            <th>Sex</th>
+            <th>Date of Birth</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="patient : ${patients}">
+            <td th:text="${patient.family}"></td>
+            <td th:text="${patient.given}"></td>
+            <td th:text="${patient.sex}"></td>
+            <td th:text="${patient.dob}"></td>
+            <td th:text="${patient.address}"></td>
+            <td th:text="${patient.phone}"></td>
+            <td>
+                <a th:href="@{'/patient/update/' + ${patient.id}}" class="btn btn-sm btn-primary">Edit</a>
+                <a th:href="@{'/patient/delete/' + ${patient.id}}" class="btn btn-sm btn-danger">Delete</a>
+                <a th:href="@{'/details/' + ${patient.id}}" class="btn btn-sm btn-info">Details</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>

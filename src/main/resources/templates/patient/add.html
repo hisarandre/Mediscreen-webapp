@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Patient Management</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css" >
+</head>
+<body>
+<div class="container">
+
+    <div class="row">
+        <h2>Add Patient</h2>
+    </div>
+
+    <div class="row">
+        <form action="#" th:action="@{/patient/validate}" th:object="${patientBean}" th:method="post" class="form-horizontal" style="width: 100%">
+            <div class="form-group">
+                <label for="family" class="col-sm-2 control-label">Family Name</label>
+                <div class="col-sm-10">
+                    <input type="text" th:field="*{family}" id="family" placeholder="Family Name" class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('family')}" th:errors="*{family}"></p>
+                    <p></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="given" class="col-sm-2 control-label">Given Name</label>
+                <div class="col-sm-10">
+                    <input type="text" th:field="*{given}" id="given" placeholder="Given Name" class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('given')}" th:errors="*{given}"></p>
+                    <p></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="sex" class="col-sm-2 control-label">Sex</label>
+                <div class="col-sm-10">
+                    <select th:field="*{sex}" id="sex">
+                        <option th:value="'M'" th:text="M"></option>
+                        <option th:value="'F'" th:text="F"></option>
+                    </select>
+                    <p class="text-danger" th:if="${#fields.hasErrors('sex')}" th:errors="*{sex}"></p>
+                    <p></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dob" class="col-sm-2 control-label">Date of Birth</label>
+                <div class="col-sm-10">
+                    <input type="date" th:field="*{dob}" id="dob" placeholder="Date of Birth" class="col-4">
+                    <p class="text-danger" th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}"></p>
+                    <p></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="address" class="col-sm-2 control-label">Address</label>
+                <div class="col-sm-10">
+                    <input type="text" th:field="*{address}" id="address" placeholder="Address" class="col-4">
+                    <p></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="col-sm-2 control-label">Phone</label>
+                <div class="col-sm-10">
+                    <input type="text" th:field="*{phone}" id="phone" placeholder="Phone" class="col-4">
+                    <p></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <a class="btn btn-danger btn-sm" href="/patient/list">Cancel</a>
+                    <input class="btn btn-primary btn-sm" type="submit" value="Add Patient">
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

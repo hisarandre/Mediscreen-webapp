@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Note</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Add New Note</h1>
+
+    <form action="#" th:action="@{/details/{id}/validate(id=${patientId})}" th:object="${historyBean}" th:method="post" >
+        <!-- Hidden input field to include the patId -->
+        <input type="hidden" th:value="${historyBean.patId}" th:attr="name='patId'"/>
+
+        <div class="form-group">
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="notes" class="form-control" th:field="*{notes}"></textarea>
+            <span th:if="${#fields.hasErrors('notes')}" th:errors="*{notes}" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success">Add Note</button>
+        <a th:href="@{/details/{id}(id=${patientId})}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>

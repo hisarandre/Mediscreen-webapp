@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient History</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1>Patient details</h1>
+    <h2>Patient: <span th:text="${patient.family}"></span> <span th:text="${patient.given}"></span></h2>
+    <hr>
+
+    <div>
+        <p><strong>Sex :</strong> <span th:text="${patient.sex}"></span></p>
+        <p><strong>Date of birth :</strong> <span th:text="${patient.dob}"></span></p>
+        <p><strong>Address :</strong> <span th:text="${patient.address}"></span></p>
+        <p><strong>Phone :</strong> <span th:text="${patient.phone}"></span></p>
+
+    </div>
+
+    <div th:if="${notes.empty}">
+        <p>No data yet.</p>
+    </div>
+    <div th:unless="${notes.empty}">
+        <h3>Notes:</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Creation Date</th>
+                <th>Notes</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="note : ${notes}">
+                <td th:text="${note.creationDate}"></td>
+                <td th:text="${note.notes}"></td>
+                <td>
+                    <a th:href="@{'/details/' + ${patient.id} + '/delete?noteId=' + ${note.id}}" class="btn btn-danger">Delete</a>
+                    <a th:href="@{'/details/' + ${patient.id} + '/update?noteId=' + ${note.id}}" class="btn btn-primary">Edit</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a th:href="@{'/details/' + ${patient.id} + '/add' }" class="btn btn-success">Add Note</a>
+    <a th:href="@{/patient/list}" class="btn btn-secondary">Return to Patient List</a>
+</div>
+</body>
+</html>

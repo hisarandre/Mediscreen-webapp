@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Note</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Update Note</h1>
+    <hr>
+    <form action="#" th:action="@{/details/update/{id}(id=${noteId})}" th:object="${historyBean}" th:method="post">
+
+        <input type=hidden th:value="${historyBean.creationDate}" th:attr="name='creationDate'"/>
+        <input type=hidden th:value="${historyBean.id}" th:attr="name='id'"/>
+        <input type=hidden th:value="${historyBean.patId}" th:attr="name='patId'"/>
+
+        <div class="form-group">
+            <label for="notes">Notes:</label>
+            <textarea id="notes" name="notes" class="form-control" th:field="*{notes}"></textarea>
+            <span th:if="${#fields.hasErrors('notes')}" th:errors="*{notes}" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Note</button>
+        <a th:href="@{/details/{id}(id=${historyBean.patId})}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+version: "3.9"
+services:
+  patient_sql:
+    container_name: "patient_sql"
+    image: 'mysql:8.0'
+    environment:
+      - 'MYSQL_DATABASE=mediscreen_patient'
+      - 'MYSQL_ROOT_PASSWORD=test'
+    volumes:
+      - ./src/main/resources/2_data.sql:/docker-entrypoint-initdb.d/2_data.sql
+      - ./src/main/resources/1_schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
+    ports:
+      - '3307:3306'
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_0900_as_ci
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 1s
+      retries: 5
+
+  patient:
+    container_name: "patient"
+    build:
+      context: ../patient
+      dockerfile: Dockerfile
+    image: patient:latest
+    restart: always
+    ports:
+      - '8081:8081'
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:mysql://patient_sql/mediscreen_patient?serverTimezone=UTC'
+      - 'SPRING_DATASOURCE_USERNAME=root'
+      - 'SPRING_DATASOURCE_PASSWORD=test'
+    depends_on:
+      patient_sql:
+        condition: service_healthy
+
+  webapp:
+    container_name: "webapp"
+    build:
+      context: ../webapp
+      dockerfile: Dockerfile
+    image: webapp:latest
+    restart: always
+    ports:
+      - '8083:8083'
+    environment:
+    - PATIENT.PROXY=patient:8081
+    - HISTORY.PROXY=history:8082
+    depends_on:
+      - patient
+      - history
+
+  history:
+    container_name: patienthistory
+    build:
+      context: ../history
+      dockerfile: Dockerfile
+    image: history:latest
+    environment:
+      - SPRING_DATA_MONGODB_HOST=mediscreenmongodb
+    depends_on:
+      - mediscreenmongodb
+    ports:
+      - 8082:8082
+
+
+  mediscreenmongodb:
+    image: mongo
+    container_name: mediscreenmongodb
+    hostname: mediscreenmongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - ./src/main/resources/mongodb_data/2_mongodb_data.NDJSON:/mediscreen_data/2_mongodb_data.NDJSON
+      - ./src/main/resources/mongodb_data/1_mongodb_schema.sh:/docker-entrypoint-initdb.d/1_mongodb_schema.sh

@@ -1,0 +1,1 @@
+mongoimport --db patientHistory --collection histories --file /mediscreen_data/2_mongodb_data.NDJSON
