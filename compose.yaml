@@ -7,6 +7,7 @@ services:
       - 'MYSQL_DATABASE=mediscreen_patient'
       - 'MYSQL_ROOT_PASSWORD=test'
     volumes:
+      - datasql:/datasql
       - ./src/main/resources/2_data.sql:/docker-entrypoint-initdb.d/2_data.sql
       - ./src/main/resources/1_schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
     ports:
@@ -44,11 +45,13 @@ services:
     ports:
       - '8083:8083'
     environment:
-    - PATIENT.PROXY=patient:8081
-    - HISTORY.PROXY=history:8082
+      - PATIENT.PROXY=http://patient:8081
+      - HISTORY.PROXY=http://history:8082
+      - ASSESSMENT.PROXY=http://assessment:8080
     depends_on:
       - patient
       - history
+      - assessment
 
   history:
     container_name: patienthistory
@@ -63,6 +66,21 @@ services:
     ports:
       - 8082:8082
 
+  assessment:
+    container_name: patientassessment
+    build:
+      context: ../assessment
+      dockerfile: Dockerfile
+    image: assessment:latest
+    environment:
+      - PATIENT.PROXY=http://patient:8081
+      - HISTORY.PROXY=http://history:8082
+    ports:
+      - 8080:8080
+    depends_on:
+      - history
+      - patient
+
 
   mediscreenmongodb:
     image: mongo
@@ -71,5 +89,14 @@ services:
     ports:
       - 27017:27017
     volumes:
+      - data:/data
       - ./src/main/resources/mongodb_data/2_mongodb_data.NDJSON:/mediscreen_data/2_mongodb_data.NDJSON
       - ./src/main/resources/mongodb_data/1_mongodb_schema.sh:/docker-entrypoint-initdb.d/1_mongodb_schema.sh
+
+volumes:
+  data: {}
+  datasql : {}
+
+networks:
+  default:
+    name: mongodb_network

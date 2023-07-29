@@ -1,7 +1,9 @@
 package com.mediscreen.webapp.controller;
 
+import com.mediscreen.webapp.beans.AssessmentBean;
 import com.mediscreen.webapp.beans.HistoryBean;
 import com.mediscreen.webapp.beans.PatientBean;
+import com.mediscreen.webapp.service.AssessmentManagementService;
 import com.mediscreen.webapp.service.HistoryManagementService;
 import com.mediscreen.webapp.service.PatientManagementService;
 import jakarta.validation.Valid;
@@ -22,13 +24,18 @@ public class HistoryManagementController {
     @Autowired
     PatientManagementService patientManagementService;
 
+    @Autowired
+    AssessmentManagementService assessmentManagementService;
+
     @GetMapping("/details/{patientId}")
     public String getHistory(@PathVariable("patientId") Integer patientId, Model model) {
         List<HistoryBean> histories = historyManagementService.getHistoriesByPatientId(patientId);
         PatientBean patient = patientManagementService.getPatientById(patientId);
+        AssessmentBean assessment = assessmentManagementService.getRisk(patientId);
 
         model.addAttribute("patient", patient);
         model.addAttribute("notes", histories);
+        model.addAttribute("assessment", assessment);
 
         return "details";
     }
