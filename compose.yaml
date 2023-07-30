@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   patient_sql:
-    container_name: "patient_sql"
+    container_name: "mysql"
     image: 'mysql:8.0'
     environment:
       - 'MYSQL_DATABASE=mediscreen_patient'
@@ -54,7 +54,7 @@ services:
       - assessment
 
   history:
-    container_name: patienthistory
+    container_name: history
     build:
       context: ../history
       dockerfile: Dockerfile
@@ -67,7 +67,7 @@ services:
       - 8082:8082
 
   assessment:
-    container_name: patientassessment
+    container_name: assessment
     build:
       context: ../assessment
       dockerfile: Dockerfile
@@ -84,7 +84,7 @@ services:
 
   mediscreenmongodb:
     image: mongo
-    container_name: mediscreenmongodb
+    container_name: mongodb
     hostname: mediscreenmongodb
     ports:
       - 27017:27017
