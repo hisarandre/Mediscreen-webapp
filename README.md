@@ -37,3 +37,10 @@ Launch the app :
 4. Once the build is successful, you can launch the app using the following command:
    ` java -jar target/webapp-0.0.1-SNAPSHOT.jar `
    This will start the app on the configured server address : http://localhost:8083
+
+## Test reports
+
+![history report](files/history.png)
+![patient report](files/patient.png)
+![assessment report](files/assessment.png)
+
